@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escuela Patinaje</title>
     <link rel="stylesheet" href="escuela-patinaje.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -27,33 +29,44 @@
         </div>
     </header>
     <!--Sliders-->
-    <div class="sliders">
-        <section class="carousel-container">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="images/p4.jpeg" class="d-block w-100" alt="...">
-                </div>
-                <!-- <div class="carousel-item">
-                    <img src="images/Patinaje.jpeg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="images/pat3.jpeg" class="d-block w-100" alt="...">
-                </div> -->
-            </div>
-        </section>
+    <section class="carousel-container">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="images/p4.jpeg" class="d-block w-100" alt="..." >
+    </div>
+    <div class="carousel-item">
+      <img src="images/Patinaje.jpeg" class="d-block w-100" alt="..." >
+    </div>
+    <div class="carousel-item">
+      <img src="images/pat3.jpeg" class="d-block w-100" alt="..." >
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="color: aqua;">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>  
+  </div>
+    </section>
+        
+       </section>
     </div>
     <!--Div contenedor tabla y formulario-->
     <div class="contenedor">
         <h2 class="titulo_formu">Registro Deportistas</h2>
         <!--Div para formulario-->
         <!--<div class="formulario">-->
-        <form id="formRegister" class="formula">
-            <input type="text" placeholder="Nombre" id="nombre" class="nombre_input">
-            <input type="text" placeholder="Apellido" id="apellido" class="apellido_input">
-            <input type="number" placeholder="Edad" id="edad" class="edad_input" min="1">
-            <input type="text" placeholder="Categoria" id="categoria" class="catego_input">
-            <button type="submit" id="submitbutton" class="boton_agregar button--primary" onclick="">Agregar</button>
-        </form>
+            <form id="formRegister" class="formula">
+                <input type="text" placeholder="Nombre" id="nombre" class="nombre_input">
+                <input type="text" placeholder="Apellido" id="apellido" class="apellido_input">
+                <input type="number" placeholder="Edad" id="edad" class="edad_input" min="1">
+                <input type="text" placeholder="Categoria" id="categoria" class="catego_input">
+                <button type="submit" id="submitbutton" class="boton_agregar button--primary" onclick="">Agregar</button>
+            </form>
         <!--</div>-->
         <!--Div para tabla-->
         <div class="table">
@@ -77,6 +90,8 @@
         </footer>
     </div>
     <script src="escula-patinaje.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </body>
 
 </html>
