@@ -26,6 +26,21 @@ header {
   justify-content: space-between;
 }
 
+.p2{
+    display: flex;
+    align-items: center;
+}
+.p2 img{
+    width: 70px;
+}
+.title{
+    text-decoration: dotted;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #c5ad5a;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -256,7 +271,7 @@ footer {
 
 /*carrusel*/
 .carousel-container {
-  margin: 0px 30px;
+  margin: 40px 30px;
   border-radius: 20px;
   height: 556px;
   /*overflow: hidden; */
