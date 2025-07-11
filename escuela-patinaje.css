@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
-body, button, input {
-    font-family: 'Outfit', sans-serif;
+body,
+button,
+input {
+  font-family: 'Outfit', sans-serif;
 }
 
 body {
@@ -12,7 +14,7 @@ body {
 }
 
 html {
-    background-color: white
+  background-color: white
 }
 
 /* Header */
@@ -69,24 +71,37 @@ nav a {
   cursor: pointer;
 }
 
-/* Sliders */
 .sliders {
   background-color: #b2ebf2;
   text-align: center;
   padding: 10px;
-  padding-top: 200px;
+  padding-top: 70px;
   font-size: 20px;
 }
 
+/* .carousel-container {
+  padding-top: 11px;
+  padding-bottom: 10px;
+  margin: auto;
+  border-radius: 20px;
+  height: 556px;
+  /*overflow: hidden; */
+  /* background-color: #f39fc6; */
+  /* border: solid;
+  width: 80%;
+} */
+
+
+
 .contenedor {
-    text-align: center;
-    margin-top: 60px;
+  text-align: center;
+  margin-top: 60px;
 }
 
 .titulo_formu {
-    font-size: 2.5rem;
-    color: #a7abb6;
-    margin-bottom: 22px;
+  font-size: 2.5rem;
+  color: #a7abb6;
+  margin-bottom: 22px;
 }
 
 /*Estilos Div que contiene al formulario*/
@@ -95,135 +110,151 @@ nav a {
 }*/
 
 .formula {
-    background-color: #b2ebf2;
-    padding: 7px 7px;
-    border: 2px solid #91c9ee;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    width: 300%;
-    max-width: max-content;
-    margin: auto;
-    margin-bottom: 60px;
+  background-color: #b2ebf2;
+  padding: 7px 7px;
+  border: 2px solid #91c9ee;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 300%;
+  max-width: max-content;
+  margin: auto;
+  margin-bottom: 60px;
 }
 
 input[type="text"] {
-    background-color: white;
-    border: 2px solid transparent; /* Azul personalizado */
-    border-radius: 4px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de la fuente */
-    transition: border-color 0.3s ease;
+  background-color: white;
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  font-size: 16px;
+  /* Tamaño de la fuente */
+  transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus {
-    outline: none; /* Quita el borde negro predeterminado */
-    border: 2px solid transparent; /* Azul personalizado */
-    box-shadow: 0 0 5px #627df7; /* Sombra opcional */
+  outline: none;
+  /* Quita el borde negro predeterminado */
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  box-shadow: 0 0 5px #627df7;
+  /* Sombra opcional */
 }
 
 input[type="number"] {
-    background-color: white;
-    border: 2px solid transparent; /* Azul personalizado */
-    border-radius: 4px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de la fuente */
-    transition: border-color 0.3s ease;
+  background-color: white;
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  font-size: 16px;
+  /* Tamaño de la fuente */
+  transition: border-color 0.3s ease;
 }
 
 input[type="number"]:focus {
-    outline: none; /* Quita el borde negro predeterminado */
-    border: 2px solid transparent; /* Azul personalizado */
-    box-shadow: 0 0 5px #627df7; /* Sombra opcional */
+  outline: none;
+  /* Quita el borde negro predeterminado */
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  box-shadow: 0 0 5px #627df7;
+  /* Sombra opcional */
 }
 
 .nombre_input {
-    border: 2px solid #91c9ee;
-    height: 25px;
+  border: 2px solid #91c9ee;
+  height: 25px;
 }
 
 .apellido_input {
-    border: 2px solid #91c9ee;
-    height: 25px;
+  border: 2px solid #91c9ee;
+  height: 25px;
 }
 
 .edad_input {
-    border: 2px solid #91c9ee;
-    height: 25px;
+  border: 2px solid #91c9ee;
+  height: 25px;
 }
 
 .catego_input {
-    border: 2px solid #91c9ee;
-    height: 25px;
+  border: 2px solid #91c9ee;
+  height: 25px;
 }
 
 .boton_agregar {
-    color: white;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    padding: 5px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .boton_agregar:focus {
-    outline: none; /* Eliminar el borde de enfoque predeterminado */
-    border: 2px solid #3498db; /* Borde azul cuando está enfocado */
+  outline: none;
+  /* Eliminar el borde de enfoque predeterminado */
+  border: 2px solid #3498db;
+  /* Borde azul cuando está enfocado */
 }
 
 .boton_agregar:hover {
-    background-color:  rgba(5, 113, 202, 0.973);
-    box-shadow: 2px 2px 5px #788dee;
+  background-color: rgba(5, 113, 202, 0.973);
+  box-shadow: 2px 2px 5px #788dee;
 }
 
 .button--primary {
-        background-color:  rgba(12, 135, 236, 0.973);  
+  background-color: rgba(12, 135, 236, 0.973);
 }
 
 .titulo_tabla {
-    font-size: 2rem;
-    color: #87898d;
-    margin-bottom: 20px;
+  font-size: 2rem;
+  color: #87898d;
+  margin-bottom: 20px;
 }
 
 .tabla_regis {
-    margin: auto;
-    width: 80%;
-    border-collapse: collapse;
+  margin: auto;
+  width: 80%;
+  border-collapse: collapse;
 }
 
-.tabla_header, .tabla_body td {
-    border: 1px solid #cccccc;
-    padding: 5px;
+.tabla_header,
+.tabla_body td {
+  border: 1px solid #cccccc;
+  padding: 5px;
 }
 
 .tabla_header {
-    background-color: #b2ebf2;
+  background-color: #b2ebf2;
 }
 
-.tabla_body td:nth-child(5){
-    display: flex;
-    justify-content: space-around;
+.tabla_body td:nth-child(5) {
+  display: flex;
+  justify-content: space-around;
 }
 
 .input-editar {
-    width: 100%;
-    max-width: 90px; /* Limita el ancho máximo */
-    box-sizing: border-box;
-    font-size: inherit;
-    padding: 1px;
-    border: 1px solid #ccc;
-    background-color: #fff;
+  width: 100%;
+  max-width: 90px;
+  /* Limita el ancho máximo */
+  box-sizing: border-box;
+  font-size: inherit;
+  padding: 1px;
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
 
 .btn-editar,
 .btn-eliminar,
 .btn-guardar,
 .btn-cancelar {
-    padding: 4px 8px;
-    font-size: 0.9em;
-    white-space: nowrap;
-    height: auto;
+  padding: 4px 8px;
+  font-size: 0.9em;
+  white-space: nowrap;
+  height: auto;
 }
 
 /* Footer */
