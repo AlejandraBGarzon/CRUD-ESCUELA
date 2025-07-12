@@ -14,6 +14,7 @@ body {
 }
 
 header {
+  width: auto;
   background-color: #ffffff;
   padding: 5px;
   display: flex;
@@ -163,7 +164,204 @@ nav a {
     font-size: 18px;
 }
 
-    
 .buttons button:hover {
     background: rgba(0, 0, 0, 0.8);
+}
+
+
+/*Formulario y tabla*/
+
+.contenedor {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.titulo_formu {
+  font-size: 2.5rem;
+  color: #eeeff1;
+  margin-bottom: 22px;
+}
+
+.formula {
+  background-color: rgb(21, 21, 73);
+  padding: 7px 7px;
+  border: 2px solid white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 300%;
+  max-width: max-content;
+  margin: auto;
+  margin-bottom: 60px;
+}
+
+input[type="text"] {
+  background-color: white;
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  font-size: 16px;
+  /* Tamaño de la fuente */
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  /* Quita el borde negro predeterminado */
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  box-shadow: 0 0 5px #627df7;
+  /* Sombra opcional */
+}
+
+input[type="number"] {
+  background-color: white;
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  border-radius: 4px;
+  /* Bordes redondeados */
+  font-size: 16px;
+  /* Tamaño de la fuente */
+  transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  /* Quita el borde negro predeterminado */
+  border: 2px solid transparent;
+  /* Azul personalizado */
+  box-shadow: 0 0 5px #627df7;
+  /* Sombra opcional */
+}
+
+.nombre_input {
+  border: 2px solid #91c9ee;
+  height: 25px;
+}
+
+.apellido_input {
+  border: 2px solid #91c9ee;
+  height: 25px;
+}
+
+.edad_input {
+  border: 2px solid #91c9ee;
+  height: 25px;
+}
+
+.catego_input {
+  border: 2px solid #91c9ee;
+  height: 25px;
+}
+
+.boton_agregar {
+  background-color: rgba(18, 131, 224, 0.973);
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boton_agregar:focus {
+  outline: none;
+  /* Eliminar el borde de enfoque predeterminado */
+  /*border: 2px solid #627df7*/
+  /* Borde azul cuando está enfocado */
+}
+
+.boton_agregar:hover {
+  color: white;
+  background-color: rgba(5, 113, 202, 0.973);
+  box-shadow: 2px 2px 5px #788dee;
+}
+
+.button--primary {
+  background-color: rgba(12, 135, 236, 0.973);
+}
+
+.titulo_tabla {
+  font-size: 2.5rem;
+  color: #eeeff1;
+  margin-bottom: 20px;
+}
+
+.tabla_regis {
+  margin: auto;
+  width: 80%;
+  border-collapse: collapse;
+}
+
+.tabla_header,
+.tabla_body td {
+  border: 1px solid #fcf9f9;
+  padding: 5px;
+}
+
+.tabla_body {
+  color: black ;
+  background-color: rgb(197, 190, 190);
+}
+
+.tabla_header {
+  color: white;
+  background-color: rgb(21, 21, 73);
+}
+
+.tabla_body td:nth-child(5) {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input-editar {
+  width: 100%;
+  max-width: 90px;
+  /* Limita el ancho máximo */
+  box-sizing: border-box;
+  font-size: inherit;
+  padding: 1px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.btn-editar {
+    border-radius: 5px;
+    background-color: #afeef7;
+}
+.btn-eliminar {
+    border-radius: 5px;
+    background-color: rgb(252, 138, 118);
+}
+
+.btn-guardar {
+  border-radius: 5px;
+  background-color: #d4f784;
+}
+.btn-cancelar {
+  border-radius: 5px;
+      background-color: rgb(248, 181, 142);
+}
+
+.btn-editar,
+.btn-eliminar,
+.btn-guardar,
+.btn-cancelar {
+  padding: 4px 8px;
+  font-size: 0.9em;
+  white-space: nowrap;
+  height: auto;
+}
+
+/* Footer */
+footer {
+  background-color: #ffffff;
+  color: rgb(21, 21, 73);
+  text-align: center;
+  padding: 10px;
+  margin-top: 190px;
+  width: 100%;
 }
