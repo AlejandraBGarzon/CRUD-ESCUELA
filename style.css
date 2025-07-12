@@ -55,8 +55,8 @@
   height: 100%;
   object-fit: contain;
   border-radius: 20px;
-  
 }
+
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
     filter: invert(100%);

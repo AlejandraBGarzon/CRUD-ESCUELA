@@ -7,15 +7,13 @@ input {
 }
 
 body {
+  background-color: #3498db;
   display: flex;
   flex-direction: column;
   height: 100vh;
   margin: 0;
 }
 
-html {
-  background-color: white
-}
 
 /* Header */
 header {
@@ -78,20 +76,6 @@ nav a {
   padding-top: 70px;
   font-size: 20px;
 }
-
-/* .carousel-container {
-  padding-top: 11px;
-  padding-bottom: 10px;
-  margin: auto;
-  border-radius: 20px;
-  height: 556px;
-  /*overflow: hidden; */
-  /* background-color: #f39fc6; */
-  /* border: solid;
-  width: 80%;
-} */
-
-
 
 .contenedor {
   text-align: center;
@@ -268,13 +252,19 @@ footer {
 }
 
 /*carrusel*/
-.carousel-container{
-    margin: 0px 30px;
-    border-radius: 20px; 
-    height: 556px;
-    /*overflow: hidden; */    
-    border: solid;
+.carousel-container {
+  margin-top: 20px;
+  padding-top: 11px;
+  padding-bottom: 10px;
+  margin: auto;
+  border-radius: 20px;
+  height: 556px;
+  background-color: #f39fc6;
+  border: solid;
+  width: 80%;
+
 }
+
 .carousel-item{
     
     height: 550px;
@@ -285,7 +275,6 @@ footer {
     height: 100%;
     
 }
-
 
 .carousel-item img {
   width: 100%;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela Patinaje Velocity X</title>
+    <link rel="stylesheet" href="pagina-inicio.css">
+</head>
+<body>
+    <!--Cabecera-->
+    <header>
+        <div class="marca-logo">
+            <img src="../images/logo-1.jpeg" alt="Logo">
+            <span class="nombre_escuela"><strong>ROLLER SKATE</strong></span>
+        </div>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Eventos</a>
+            <a href="#">Galería</a>
+            <a href="#">Contacto</a>
+        </nav>
+        <div class="search-box">
+            <button class="boton-iniciar">Iniciar Sesión</button>
+            <button class="boton-regis">Registrarse</button>
+        </div>
+    </header>
+    <!--Sliders-->
+    <div class="sliders">
+        <div class="slides" id="slides">
+            <div class="slide"><img src="/images/inline-speed-skating-2460832_1280.jpg" alt="Imagen 1"></div>
+            <div class="slide"><img src="/images/pat3.jpeg" alt="Imagen 2"></div>
+            <div class="slide"><img src="/images/Patinaje.jpeg" alt="Imagen 3"></div>
+        </div>
+        <div class="buttons">
+            <button onclick="prevSlide()">⬅</button>
+            <button onclick="nextSlide()">➡</button>
+        </div>
+    </div>
+    <script src="/escuela-patinaje.js"></script>
+</body>
+</html>
