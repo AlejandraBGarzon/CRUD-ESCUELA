@@ -268,22 +268,17 @@ footer {
 
 /*carrusel*/
 .carousel-container {
-  margin-top: 20px;
-  padding-top: 11px;
-  padding-bottom: 10px;
-  margin: auto;
+  margin: 40px 30px;
   border-radius: 20px;
   height: 556px;
-  background-color: #f39fc6;
+  /*overflow: hidden; */
   border: solid;
-  width: 80%;
-
 }
 
-.carousel-item{
-    
-    height: 550px;
-   
+.carousel-item {
+
+  height: 550px;
+
 }
 
 .carousel {
@@ -301,6 +296,9 @@ footer {
 }
 
 .carousel-control-next,
-.carousel-control-prev /*, .carousel-indicators */ {
-    filter: invert(100%);
+.carousel-control-prev
+
+/*, .carousel-indicators */
+  {
+  filter: invert(100%);
 }

@@ -27,15 +27,44 @@
     <!--Sliders-->
     <div class="sliders">
         <div class="slides" id="slides">
-            <div class="slide"><img src="/images/inline-speed-skating-2460832_1280.jpg" alt="Imagen 1"></div>
-            <div class="slide"><img src="/images/pat3.jpeg" alt="Imagen 2"></div>
-            <div class="slide"><img src="/images/Patinaje.jpeg" alt="Imagen 3"></div>
+            <div class="slide"><img src="../images/inline-speed-skating-2460832_1280.jpg" alt="Imagen 1"></div>
+            <!--<div class="slide"><img src="/images/pat3.jpeg" alt="Imagen 2"></div>-->
+            <div class="slide"><img src="../images/Patinaje.jpeg" alt="Imagen 3"></div>
         </div>
         <div class="buttons">
             <button onclick="prevSlide()">⬅</button>
             <button onclick="nextSlide()">➡</button>
         </div>
     </div>
-    <script src="/escuela-patinaje.js"></script>
+    <div class="contenedor">
+        <h2 class="titulo_formu">Registro Deportistas</h2>
+            <form id="formRegister" class="formula">
+                <input type="text" placeholder="Nombre" id="nombre" class="nombre_input">
+                <input type="text" placeholder="Apellido" id="apellido" class="apellido_input">
+                <input type="number" placeholder="Edad" id="edad" class="edad_input" min="1">
+                <input type="text" placeholder="Categoria" id="categoria" class="catego_input">
+                <button type="submit" id="submitbutton" class="boton_agregar button--primary" onclick="">Agregar</button>
+            </form>
+            <div class="table">
+                <h2 class="titulo_tabla">Tabla De Registros</h2>
+                    <table class="tabla_regis">
+                        <thead>
+                            <tr>
+                                <th class="tabla_header">Nombre</th>
+                                <th class="tabla_header">Apellido</th>
+                                <th class="tabla_header">Edad</th>
+                                <th class="tabla_header">Categoria</th>
+                                <th class="tabla_header">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaBody" class="tabla_body">
+                        </tbody>
+                    </table>
+            </div>
+        <footer>
+            &copy; 2025 Roller Skate - Todos los derechos reservados
+        </footer>
+    </div>
+    <script src="../escuela-patinaje.js"></script>
 </body>
 </html>
