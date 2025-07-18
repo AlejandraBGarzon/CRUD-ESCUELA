@@ -1,3 +1,7 @@
+// =======================================
+// =============== LOGIN =================
+// =======================================
+
 // // Esta función se ejecuta apenas se carga la página
 // window.onload = function () {
 //     // Revisamos si hay datos guardados en localStorage
@@ -45,28 +49,40 @@
 //     }
 // }
 
-    let currentSlide = 0;
-    const slides = document.getElementById('slides');
-    const totalSlides = document.querySelectorAll('.slide').length;
 
-    function updateSlide() {
-      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+// =======================================
+// =============== SLIDES ================
+// =======================================
 
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateSlide();
-    }
+let currentSlide = 0;
+const slides = document.getElementById('slides');
+const totalSlides = document.querySelectorAll('.slide').length;
 
-    function prevSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateSlide();
-    }
+function updateSlide() {
+    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
 
-    // Cambio automático cada 5 segundos
-    setInterval(nextSlide, 5000);
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlide();
+}
 
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlide();
+}
+
+// Cambio automático cada 5 segundos
+setInterval(nextSlide, 5000);
+
+
+// =======================================
+// =============== CRUD ==================
+// =======================================
+
+// Espera a que todo el contenido del HTML esté cargado antes de ejecutar el código
 document.addEventListener('DOMContentLoaded', () => {
+    // Se obtienen los elementos del formulario y la tabla
     const form = document.getElementById('formRegister');
     const nombreInput = document.getElementById('nombre');
     const apellidoInput = document.getElementById('apellido');
@@ -74,50 +90,88 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriaInput = document.getElementById('categoria');
     const tablaBody = document.getElementById('tablaBody');
 
-    let registros = JSON.parse(localStorage.getItem('deportistas')) || [];
+    // Dirección base de la API donde se guardan los datos en MongoDB
+    const API_URL = 'http://localhost:3000/api/deportistas';
 
-    registros.forEach((registro, index) => {
-        agregarFilaATabla(registro, index);
-    });
+    // Arreglo donde se guardan temporalmente los registros cargados desde la base de datos
+    let registros = [];
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
+    // ================================
+    // CARGAR REGISTROS DESDE LA API
+    // ================================
 
+    // Esta función obtiene los datos desde MongoDB y los muestra en la tabla
+    async function cargarRegistros() {
+        const res = await fetch(API_URL); // Se hace una petición GET a la API
+        registros = await res.json();     // Se guardan los datos recibidos en el arreglo
+        renderizarTabla();                // Se actualiza la tabla en pantalla
+    }
+
+    // ================================
+    // MOSTRAR DATOS EN LA TABLA
+    // ================================
+
+    // Esta función limpia la tabla y vuelve a agregar todas las filas
+    function renderizarTabla() {
+        tablaBody.innerHTML = ''; // Limpia el contenido actual de la tabla
+        registros.forEach((registro, index) => {
+            agregarFilaATabla(registro, index); // Agrega cada fila usando otra función
+        });
+    }
+
+    // ================================
+    // AGREGAR NUEVO REGISTRO
+    // ================================
+
+    // Al enviar el formulario, se crea un nuevo deportista y se guarda en la base de datos
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault(); // Evita que el formulario recargue la página
+
+        // Se obtienen los valores del formulario
         const nombre = nombreInput.value.trim();
         const apellido = apellidoInput.value.trim();
-        const edad = edadInput.value.trim();
+        const edad = Number(edadInput.value.trim());
         const categoria = categoriaInput.value.trim();
 
-        // Validación de campos
+        const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Expresión regular para validar solo letras
+
+        // Verifica que todos los campos estén llenos
         if (!nombre || !apellido || !edad || !categoria) {
-            alert('Por favor, completa todos los campos.');
-            return;
+            return alert('Por favor, completa todos los campos.');
         }
 
-        const soloLetras = /^[a-zA-Z\s]+$/;
-
+        // Verifica que los campos de texto no tengan números u otros caracteres
         if (!soloLetras.test(nombre) || !soloLetras.test(apellido) || !soloLetras.test(categoria)) {
-            alert('Nombre, apellido y categoría solo deben contener letras.');
-            return;
+            return alert('Nombre, apellido y categoría solo deben contener letras.');
         }
 
-        const edadNumero = Number(edad);
-        if (isNaN(edadNumero) || edadNumero < 1) {
-            alert('La edad debe ser un número válido mayor o igual a 1.');
-            return;
-        }
+        // Se crea un objeto con los datos del nuevo deportista
+        const nuevoRegistro = { nombre, apellido, edad, categoria };
 
-        const nuevoRegistro = { nombre, apellido, edad: edadNumero, categoria };
-        registros.push(nuevoRegistro);
-        guardarRegistros();
-        agregarFilaATabla(nuevoRegistro, registros.length - 1);
-        form.reset();
+        // Se envía a la base de datos con una petición POST
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(nuevoRegistro)
+        });
+
+        // Se agrega el nuevo deportista a la tabla y al arreglo local
+        const creado = await res.json();
+        registros.push(creado);
+        agregarFilaATabla(creado, registros.length - 1);
+        form.reset(); // Limpia el formulario
     });
 
+    // ================================
+    // AGREGAR FILA A LA TABLA
+    // ================================
+
+    // Esta función crea una nueva fila en la tabla con los datos del deportista
     function agregarFilaATabla(registro, index) {
         const fila = document.createElement('tr');
         fila.classList.add('fila-dato');
 
+        // Se insertan los datos del deportista y los botones de editar y eliminar
         fila.innerHTML = `
             <td class="celda">${registro.nombre}</td>
             <td class="celda">${registro.apellido}</td>
@@ -129,81 +183,81 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
         `;
 
-        tablaBody.appendChild(fila);
+        tablaBody.appendChild(fila); // Se agrega la fila a la tabla
 
+        // Se conectan los botones a sus respectivas funciones
         const btnEditar = fila.querySelector('.btn-editar');
         const btnEliminar = fila.querySelector('.btn-eliminar');
 
-        btnEditar.addEventListener('click', () => habilitarEdicion(index, fila));
-        btnEliminar.addEventListener('click', () => eliminarFila(index));
+        btnEditar.addEventListener('click', () => habilitarEdicion(index, fila, registro._id));
+        btnEliminar.addEventListener('click', () => eliminarRegistro(index, registro._id));
     }
 
-    function guardarRegistros() {
-        localStorage.setItem('deportistas', JSON.stringify(registros));
-    }
+    // ================================
+    // HABILITAR EDICIÓN EN FILA
+    // ================================
 
-    function habilitarEdicion(index, fila) {
+    // Esta función permite editar directamente los datos de una fila
+    function habilitarEdicion(index, fila, id) {
         const registro = registros[index];
         const celdas = fila.querySelectorAll('td');
 
-        // Reemplazar celdas por inputs
-        celdas[0].innerHTML = `<input type="text" value="${registro.nombre}" class="input-editar" id="edit-nombre-${index}">`;
-        celdas[1].innerHTML = `<input type="text" value="${registro.apellido}" class="input-editar" id="edit-apellido-${index}">`;
-        celdas[2].innerHTML = `<input type="number" value="${registro.edad}" min="1" class="input-editar" id="edit-edad-${index}">`;
-        celdas[3].innerHTML = `<input type="text" value="${registro.categoria}" class="input-editar" id="edit-categoria-${index}">`;
+        // Reemplaza los textos por campos de entrada para editar
+        celdas[0].innerHTML = `<input type="text" value="${registro.nombre}" class="input-editar">`;
+        celdas[1].innerHTML = `<input type="text" value="${registro.apellido}" class="input-editar">`;
+        celdas[2].innerHTML = `<input type="number" value="${registro.edad}" min="1" class="input-editar">`;
+        celdas[3].innerHTML = `<input type="text" value="${registro.categoria}" class="input-editar">`;
         celdas[4].innerHTML = `
             <button class="btn-guardar">Guardar</button>
             <button class="btn-cancelar">Cancelar</button>
         `;
 
-        // Botones
-        const btnGuardar = celdas[4].querySelector('.btn-guardar');
-        const btnCancelar = celdas[4].querySelector('.btn-cancelar');
+        // Botón para guardar los cambios
+        celdas[4].querySelector('.btn-guardar').addEventListener('click', async () => {
+            const nuevo = {
+                nombre: celdas[0].querySelector('input').value.trim(),
+                apellido: celdas[1].querySelector('input').value.trim(),
+                edad: Number(celdas[2].querySelector('input').value.trim()),
+                categoria: celdas[3].querySelector('input').value.trim()
+            };
 
-        btnGuardar.addEventListener('click', () => guardarEdicion(index));
-        btnCancelar.addEventListener('click', () => recargarTabla());
+            // Enviar los nuevos datos a la API con PUT
+            const res = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(nuevo)
+            });
+
+            const actualizado = await res.json();
+            registros[index] = actualizado;
+            renderizarTabla(); // Vuelve a mostrar la tabla actualizada
+        });
+
+        // Botón para cancelar la edición y volver a mostrar la tabla original
+        celdas[4].querySelector('.btn-cancelar').addEventListener('click', renderizarTabla);
     }
 
-    function guardarEdicion(index) {
-        const nombre = document.getElementById(`edit-nombre-${index}`).value.trim();
-        const apellido = document.getElementById(`edit-apellido-${index}`).value.trim();
-        const edad = document.getElementById(`edit-edad-${index}`).value.trim();
-        const categoria = document.getElementById(`edit-categoria-${index}`).value.trim();
+    // ================================
+    // ELIMINAR UN REGISTRO
+    // ================================
 
-        const soloLetras = /^[a-zA-Z\s]+$/;
-        const edadNumero = Number(edad);
+    // Esta función elimina un deportista de la base de datos y de la tabla
+    async function eliminarRegistro(index, id) {
+        if (!confirm('¿Seguro que quieres eliminar este registro?')) return;
 
-        if (!nombre || !apellido || !edad || !categoria) {
-            alert('Por favor, completa todos los campos.');
-            return;
-        }
+        // Se envía una solicitud DELETE a la API
+        await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE'
+        });
 
-        if (!soloLetras.test(nombre) || !soloLetras.test(apellido) || !soloLetras.test(categoria)) {
-            alert('Nombre, apellido y categoría solo deben contener letras.');
-            return;
-        }
-
-        if (isNaN(edadNumero) || edadNumero < 1) {
-            alert('La edad debe ser un número mayor o igual a 1.');
-            return;
-        }
-
-        registros[index] = { nombre, apellido, edad: edadNumero, categoria };
-        guardarRegistros();
-        recargarTabla();
+        // Se elimina del arreglo local y se actualiza la tabla
+        registros.splice(index, 1);
+        renderizarTabla();
     }
 
-    function eliminarFila(index) {
-        if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
-            registros.splice(index, 1);
-            guardarRegistros();
-            recargarTabla();
-        }
-    }
+    // ================================
+    // INICIO: CARGAR DATOS
+    // ================================
 
-    function recargarTabla() {
-        tablaBody.innerHTML = '';
-        registros.forEach((registro, i) => agregarFilaATabla(registro, i));
-    }
+    cargarRegistros(); // Al cargar la página, se traen los datos desde la base
 });
-
