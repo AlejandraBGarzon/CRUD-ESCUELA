@@ -51,38 +51,10 @@
 
 
 // =======================================
-// =============== SLIDES ================
-// =======================================
-
-let currentSlide = 0;
-const slides = document.getElementById('slides');
-const totalSlides = document.querySelectorAll('.slide').length;
-
-function updateSlide() {
-    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-}
-
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    updateSlide();
-}
-
-function prevSlide() {
-    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-    updateSlide();
-}
-
-// Cambio automático cada 5 segundos
-setInterval(nextSlide, 5000);
-
-
-// =======================================
 // =============== CRUD ==================
 // =======================================
 
-// Espera a que todo el contenido del HTML esté cargado antes de ejecutar el código
 document.addEventListener('DOMContentLoaded', () => {
-    // Se obtienen los elementos del formulario y la tabla
     const form = document.getElementById('formRegister');
     const nombreInput = document.getElementById('nombre');
     const apellidoInput = document.getElementById('apellido');
@@ -90,138 +62,301 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriaInput = document.getElementById('categoria');
     const tablaBody = document.getElementById('tablaBody');
 
-    // Dirección base de la API donde se guardan los datos en MongoDB
     const API_URL = 'http://localhost:3000/api/deportistas';
-
-    // Arreglo donde se guardan temporalmente los registros cargados desde la base de datos
     let registros = [];
+    let registrosFiltrados = []; // Registros que coinciden con el filtro
+    let currentPage = 1;
+    const rowsPerPage = 5;
+
 
     // ================================
-    // CARGAR REGISTROS DESDE LA API
+    // CARGAR REGISTROS
     // ================================
-
-    // Esta función obtiene los datos desde MongoDB y los muestra en la tabla
     async function cargarRegistros() {
-        const res = await fetch(API_URL); // Se hace una petición GET a la API
-        registros = await res.json();     // Se guardan los datos recibidos en el arreglo
-        renderizarTabla();                // Se actualiza la tabla en pantalla
+        const res = await fetch(API_URL);
+        registros = await res.json();
+        renderizarTabla();
     }
 
     // ================================
-    // MOSTRAR DATOS EN LA TABLA
+    // RENDERIZAR TABLA
     // ================================
-
-    // Esta función limpia la tabla y vuelve a agregar todas las filas
     function renderizarTabla() {
-        tablaBody.innerHTML = ''; // Limpia el contenido actual de la tabla
-        registros.forEach((registro, index) => {
-            agregarFilaATabla(registro, index); // Agrega cada fila usando otra función
+        tablaBody.innerHTML = '';
+
+        // Usar los filtrados si existen, si no usar todos
+        const datos = registrosFiltrados.length ? registrosFiltrados : registros;
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginados = datos.slice(start, end);
+
+        paginados.forEach((registro, index) => {
+            agregarFilaATabla(registro, start + index);
         });
+
+        renderizarPaginacion(datos.length);
     }
+
+
+    // ================================
+    // PAGINACIÓN - Botones de página
+    // ================================
+
+    function renderizarPaginacion(totalRegistros) {
+        const totalPaginas = Math.ceil(totalRegistros / rowsPerPage);
+        const paginacionContainer = document.getElementById('paginacion');
+        paginacionContainer.innerHTML = '';
+
+        // Botón anterior
+        const btnPrev = document.createElement('button');
+        btnPrev.textContent = 'Anterior';
+        btnPrev.disabled = currentPage === 1;
+        btnPrev.addEventListener('click', () => {
+            currentPage--;
+            renderizarTabla();
+        });
+        paginacionContainer.appendChild(btnPrev);
+
+        // Botones de página
+        for (let i = 1; i <= totalPaginas; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            if (i === currentPage) btn.classList.add('activo');
+            btn.addEventListener('click', () => {
+                currentPage = i;
+                renderizarTabla();
+            });
+            paginacionContainer.appendChild(btn);
+        }
+
+        // Botón siguiente
+        const btnNext = document.createElement('button');
+        btnNext.textContent = 'Siguiente';
+        btnNext.disabled = currentPage === totalPaginas;
+        btnNext.addEventListener('click', () => {
+            currentPage++;
+            renderizarTabla();
+        });
+        paginacionContainer.appendChild(btnNext);
+    }
+
+
+    // ================================
+    // BUSCADOR
+    // ================================
+
+    const buscadorInput = document.getElementById('buscador');
+
+
+    buscadorInput.addEventListener('input', () => {
+        const termino = buscadorInput.value.trim().toLowerCase();
+
+        registrosFiltrados = registros.filter(registro =>
+            registro.nombre.toLowerCase().includes(termino) ||
+            registro.apellido.toLowerCase().includes(termino)
+        );
+
+        if (termino === '') {
+            registrosFiltrados = []; // esto activa modo "mostrar todo"
+        }
+
+        currentPage = 1;
+        renderizarTabla(); // sin argumento
+    });
+
+
+
+    // ================================
+    // DATA SORRT - FLECHAS PARA ORDENAR
+    // ================================
+
+    let ordenActual = {
+        columna: null,
+        ascendente: true
+    };
+
+    document.querySelectorAll('th[data-col]').forEach(th => {
+        th.addEventListener('click', () => {
+            const columna = th.dataset.col;
+
+            document.querySelectorAll('th[data-col]').forEach(h => h.classList.remove('asc', 'desc'));
+
+            if (ordenActual.columna === columna) {
+                ordenActual.ascendente = !ordenActual.ascendente;
+            } else {
+                ordenActual.columna = columna;
+                ordenActual.ascendente = true;
+            }
+
+            // Aplica la clase visual según dirección
+            th.classList.add(ordenActual.ascendente ? 'asc' : 'desc');
+
+            // Determinar cuál arreglo ordenar
+            const arregloOrdenar = registrosFiltrados.length > 0 ? registrosFiltrados : registros;
+
+            arregloOrdenar.sort((a, b) => {
+                let valA = a[columna];
+                let valB = b[columna];
+
+                if (!isNaN(valA) && !isNaN(valB)) {
+                    valA = Number(valA);
+                    valB = Number(valB);
+                } else {
+                    valA = valA.toString().toLowerCase();
+                    valB = valB.toString().toLowerCase();
+                }
+
+                return ordenActual.ascendente
+                    ? valA > valB ? 1 : -1
+                    : valA < valB ? 1 : -1;
+            });
+
+            currentPage = 1;
+            renderizarTabla(); // ¡ahora sí mostrará el arreglo ordenado!
+        });
+    });
+
 
     // ================================
     // AGREGAR NUEVO REGISTRO
     // ================================
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    // Al enviar el formulario, se crea un nuevo deportista y se guarda en la base de datos
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault(); // Evita que el formulario recargue la página
-
-        // Se obtienen los valores del formulario
         const nombre = nombreInput.value.trim();
         const apellido = apellidoInput.value.trim();
         const edad = Number(edadInput.value.trim());
         const categoria = categoriaInput.value.trim();
 
-        const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Expresión regular para validar solo letras
+        const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-        // Verifica que todos los campos estén llenos
         if (!nombre || !apellido || !edad || !categoria) {
             return alert('Por favor, completa todos los campos.');
         }
 
-        // Verifica que los campos de texto no tengan números u otros caracteres
         if (!soloLetras.test(nombre) || !soloLetras.test(apellido) || !soloLetras.test(categoria)) {
             return alert('Nombre, apellido y categoría solo deben contener letras.');
         }
 
-        // Se crea un objeto con los datos del nuevo deportista
         const nuevoRegistro = { nombre, apellido, edad, categoria };
 
-        // Se envía a la base de datos con una petición POST
         const res = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(nuevoRegistro)
         });
 
-        // Se agrega el nuevo deportista a la tabla y al arreglo local
         const creado = await res.json();
         registros.push(creado);
-        agregarFilaATabla(creado, registros.length - 1);
-        form.reset(); // Limpia el formulario
+        renderizarTabla();
+
+        form.reset();
     });
 
     // ================================
-    // AGREGAR FILA A LA TABLA
+    // AGREGAR FILA A TABLA
     // ================================
-
-    // Esta función crea una nueva fila en la tabla con los datos del deportista
     function agregarFilaATabla(registro, index) {
         const fila = document.createElement('tr');
-        fila.classList.add('fila-dato');
 
-        // Se insertan los datos del deportista y los botones de editar y eliminar
+        const claseCategoria = obtenerClaseCategoria(registro.categoria);
+
         fila.innerHTML = `
-            <td class="celda">${registro.nombre}</td>
-            <td class="celda">${registro.apellido}</td>
-            <td class="celda">${registro.edad}</td>
-            <td class="celda">${registro.categoria}</td>
-            <td class="celda">
-                <button class="btn-editar">Editar</button>
-                <button class="btn-eliminar">Eliminar</button>
-            </td>
-        `;
+<td data-label="Nombre">
+  <div class="usuario">
+    <div class="avatar-icon ${claseCategoria}">
+      <i class="fa-solid fa-user"></i>
+    </div>
+    <span>${registro.nombre}</span>
+  </div>
+</td>
+<td data-label="Apellido">${registro.apellido}</td>
+<td data-label="Edad">${registro.edad}</td>
+<td data-label="Categoría"><span class="badge ${claseCategoria}">${registro.categoria}</span></td>
+<td class="acciones-cell" data-label="Acciones"></td>
+`;
 
-        tablaBody.appendChild(fila); // Se agrega la fila a la tabla
+        // Crear los íconos de editar y eliminar
+        const editarBtn = document.createElement("i");
+        editarBtn.className = "fas fa-pen btn-edit";
+        editarBtn.title = "Editar";
+        editarBtn.style.cursor = "pointer";
+        editarBtn.dataset.index = index;
+        editarBtn.addEventListener('click', () => habilitarEdicion(index, fila, registro._id));
 
-        // Se conectan los botones a sus respectivas funciones
-        const btnEditar = fila.querySelector('.btn-editar');
-        const btnEliminar = fila.querySelector('.btn-eliminar');
+        const eliminarBtn = document.createElement("i");
+        eliminarBtn.className = "fas fa-trash btn-delete";
+        eliminarBtn.title = "Eliminar";
+        eliminarBtn.style.cursor = "pointer";
+        eliminarBtn.dataset.index = index;
+        eliminarBtn.addEventListener('click', () => eliminarRegistro(index, registro._id));
 
-        btnEditar.addEventListener('click', () => habilitarEdicion(index, fila, registro._id));
-        btnEliminar.addEventListener('click', () => eliminarRegistro(index, registro._id));
+        // Agrega los íconos al último <td>
+        const accionesTd = fila.querySelector(".acciones-cell");
+        accionesTd.appendChild(editarBtn);
+        accionesTd.appendChild(document.createTextNode(' ')); // espacio entre íconos
+        accionesTd.appendChild(eliminarBtn);
+
+        tablaBody.appendChild(fila);
     }
 
-    // ================================
-    // HABILITAR EDICIÓN EN FILA
-    // ================================
+    function obtenerClaseCategoria(categoria) {
+        const tipo = categoria.toLowerCase();
+        if (tipo === 'infantil') return 'infantil';
+        if (tipo === 'intermedia') return 'intermedia';
+        if (tipo === 'juvenil') return 'juvenil';
+        if (tipo === 'pre-juvenil') return 'prejuvenil';
+        if (tipo === 'junior') return 'junior';
+        if (tipo === 'senior') return 'senior';
+        if (tipo === 'élite' || tipo === 'elite') return 'elite';
+        return '';
+    }
 
-    // Esta función permite editar directamente los datos de una fila
+
+    // ================================
+    // HABILITAR EDICIÓN
+    // ================================
     function habilitarEdicion(index, fila, id) {
         const registro = registros[index];
         const celdas = fila.querySelectorAll('td');
 
-        // Reemplaza los textos por campos de entrada para editar
         celdas[0].innerHTML = `<input type="text" value="${registro.nombre}" class="input-editar">`;
         celdas[1].innerHTML = `<input type="text" value="${registro.apellido}" class="input-editar">`;
         celdas[2].innerHTML = `<input type="number" value="${registro.edad}" min="1" class="input-editar">`;
-        celdas[3].innerHTML = `<input type="text" value="${registro.categoria}" class="input-editar">`;
-        celdas[4].innerHTML = `
-            <button class="btn-guardar">Guardar</button>
-            <button class="btn-cancelar">Cancelar</button>
-        `;
+        celdas[3].innerHTML = `
+  <select class="editar-categoria input-editar">
+    ${["Infantil", "Intermedia", "Juvenil", "Pre-Juvenil", "Junior", "Senior", "Élite"].map(cat => `
+      <option value="${cat}" ${registro.categoria.toLowerCase() === cat.toLowerCase() ? 'selected' : ''}>${cat}</option>
+    `).join("")}
+  </select>
+`;
 
-        // Botón para guardar los cambios
+        celdas[4].innerHTML = `
+        <button type="button" class="btn-tabla btn-guardar">Guardar</button>
+        <button type="button" class="btn-tabla btn-cancelar">Cancelar</button>
+    `;
+
+        // Botón GUARDAR
         celdas[4].querySelector('.btn-guardar').addEventListener('click', async () => {
             const nuevo = {
                 nombre: celdas[0].querySelector('input').value.trim(),
                 apellido: celdas[1].querySelector('input').value.trim(),
                 edad: Number(celdas[2].querySelector('input').value.trim()),
-                categoria: celdas[3].querySelector('input').value.trim()
+                categoria: celdas[3].querySelector('select').value.trim()
+
             };
 
-            // Enviar los nuevos datos a la API con PUT
+            const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
+            if (!nuevo.nombre || !nuevo.apellido || !nuevo.edad || !nuevo.categoria) {
+                return alert('Por favor, completa todos los campos.');
+            }
+
+            if (!soloLetras.test(nuevo.nombre) || !soloLetras.test(nuevo.apellido) || !soloLetras.test(nuevo.categoria)) {
+                return alert('Nombre, apellido y categoría solo deben contener letras.');
+            }
+
             const res = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -230,34 +365,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const actualizado = await res.json();
             registros[index] = actualizado;
-            renderizarTabla(); // Vuelve a mostrar la tabla actualizada
+            renderizarTabla();
         });
 
-        // Botón para cancelar la edición y volver a mostrar la tabla original
-        celdas[4].querySelector('.btn-cancelar').addEventListener('click', renderizarTabla);
+        // Botón CANCELAR
+        celdas[4].querySelector('.btn-cancelar').addEventListener('click', () => {
+            fila.innerHTML = '';
+            agregarFilaATabla(registro, index);
+        });
     }
 
+    
     // ================================
-    // ELIMINAR UN REGISTRO
+    // ELIMINAR REGISTRO
     // ================================
-
-    // Esta función elimina un deportista de la base de datos y de la tabla
     async function eliminarRegistro(index, id) {
         if (!confirm('¿Seguro que quieres eliminar este registro?')) return;
 
-        // Se envía una solicitud DELETE a la API
         await fetch(`${API_URL}/${id}`, {
             method: 'DELETE'
         });
 
-        // Se elimina del arreglo local y se actualiza la tabla
         registros.splice(index, 1);
         renderizarTabla();
     }
 
     // ================================
-    // INICIO: CARGAR DATOS
+    // CARGAR DATOS INICIALMENTE
     // ================================
-
-    cargarRegistros(); // Al cargar la página, se traen los datos desde la base
+    cargarRegistros();
 });
+
