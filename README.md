@@ -1,5 +1,16 @@
 # 🛹 Escuela de Patinaje – ROLLER SKATE (Versión Personal Adaptada)
 
+## 🌐 Demo en Vivo
+
+🚀 **¡Ya puedes ver el proyecto funcionando en línea!**  
+Accede a la versión adaptada desde el siguiente enlace:
+
+🔗 👉 [**Ver Sitio Web ROLLER SKATE**](https://alejandrabgarzon.github.io/CRUD-ESCUELA/)
+
+> 🛹 Una aplicación CRUD 100% en el navegador, sin necesidad de backend.
+
+---
+
 Este proyecto es una **adaptación personal** que desarrollé a partir de un trabajo grupal previamente realizado.  
 La versión original integraba una API backend con MongoDB. En esta variante, decidí enfocarme **exclusivamente en el frontend**, implementando toda la lógica CRUD (Crear, Leer, Actualizar y Eliminar) a través de **`localStorage`**, sin necesidad de servidor o base de datos externa.
 
@@ -13,12 +24,6 @@ Este enfoque permite ver cómo puede funcionar un sistema completo desde el lado
 - Simular una plataforma de gestión de deportistas utilizando `localStorage`.
 - Reutilizar diseño y experiencia de usuario del proyecto original.
 - Practicar estructuras dinámicas como tablas, formularios, filtros, búsqueda y validaciones.
-
----
-
-## 🌐 Demo en Vivo
-
-🔗 [Ver Sitio Web](https://alejandrabgarzon.github.io/CRUD-ESCUELA/)
 
 ---
 
