@@ -1,59 +1,41 @@
-🛹 Escuela Patinaje ROLLER SKATE
+# 🛹 Escuela de Patinaje – ROLLER SKATE (Versión Personal Adaptada)
 
-Este proyecto es un sitio web para una escuela de patinaje llamado **ROLLER SKATE**. El objetivo principal es mostrar la integración de tecnologías **front-end** y **back-end** a través de un sistema **CRUD (Crear, Leer, Actualizar y Eliminar)**.
+Este proyecto es una **adaptación personal** que desarrollé a partir de un trabajo grupal previamente realizado.  
+La versión original integraba una API backend con MongoDB. En esta variante, decidí enfocarme **exclusivamente en el frontend**, implementando toda la lógica CRUD (Crear, Leer, Actualizar y Eliminar) a través de **`localStorage`**, sin necesidad de servidor o base de datos externa.
 
-Se divide en dos partes principales: el cliente (frontend) y el servidor (backend), y demuestra cómo funciona la comunicación entre ambos para gestionar datos dinámicos con la conexión en Mongo.
-
----
-
-## 🌐 Demo
-
-🔗 [Repositorio en GitHub](https://github.com/CrisAlejo316/ESCUELA-PATINAJE)
-
+Este enfoque permite ver cómo puede funcionar un sistema completo desde el lado del cliente, y fue una excelente oportunidad para reforzar conocimientos de HTML, CSS y JavaScript puro, así como habilidades de diseño de interfaz y lógica de programación.
 
 ---
 
-## 🎯 Objetivos del Proyecto
+## 🎯 Objetivos de esta Versión
 
-- Aplicar conocimientos de desarrollo web completo (front + back)
-- Implementar operaciones CRUD
-- Simular una pequeña plataforma de gestión para una escuela de patinaje
-
----
-
-## 🚀 Tecnologías Utilizadas
-
-### Front-end
-
-- HTML5  
-- CSS3  
-- JavaScript  
-
-### Back-end
-
-- Node.js  
-
+- Crear una versión totalmente funcional sin backend ni base de datos.
+- Simular una plataforma de gestión de deportistas utilizando `localStorage`.
+- Reutilizar diseño y experiencia de usuario del proyecto original.
+- Practicar estructuras dinámicas como tablas, formularios, filtros, búsqueda y validaciones.
 
 ---
 
-## 📂 Estructura del Proyecto
-```
-📦 ESCUELA PATINAJE/
-├── frontend/                     # Parte visual del sitio (cliente)
-│   ├── images/                   # Imágenes del sitio web
-│   ├── paginas/                  # HTML,CSS y JS
-│   │   ├── animaciones.js
-│   │   ├── pagina-inicio.css
-│   │   └── pagina-inicio.html
-│   └── service/                   
-│       └── escuela-patinaje.js
-│
-├── backend/                      # Lógica del servidor y conexión a datos
-│   ├── models/                   # Modelos de datos 
-│   │   └── Deportista.js
-│   ├── nodemodels/               # Modelos definidos con Node.js 
-│   │   └── estudianteModel.js
-│   └── routes/                   # Rutas del CRUD (API)
-│       └── deportistas.js
-│
-└──README.md                     # Documentación del proyecto
+## 🌐 Demo en Vivo
+
+🔗 [Ver Sitio Web](https://alejandrabgarzon.github.io/CRUD-ESCUELA/)
+
+---
+
+## 🧰 Tecnologías Utilizadas
+
+- **HTML5**
+- **CSS3** (estilos personalizados y paleta temática)
+- **JavaScript Vanilla**
+- **localStorage** para almacenamiento persistente en navegador
+
+---
+
+## 🧱 Funcionalidades Principales
+
+- Registrar deportistas con nombre, edad, apellido y categoría.
+- Mostrar registros en una tabla dinámica editable.
+- Editar y eliminar deportistas directamente desde la tabla.
+- Filtros visuales y validaciones básicas.
+- Estilos visuales personalizados y uso de avatares por categoría.
+
