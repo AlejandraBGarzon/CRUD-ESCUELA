@@ -68,6 +68,53 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarTabla();
     });
 
+    let ordenActual = {
+        columna: null,
+        ascendente: true
+    };
+
+    document.querySelectorAll('th[data-col]').forEach(th => {
+        th.addEventListener('click', () => {
+            const columna = th.dataset.col;
+
+            document.querySelectorAll('th[data-col]').forEach(h => h.classList.remove('asc', 'desc'));
+
+            if (ordenActual.columna === columna) {
+                ordenActual.ascendente = !ordenActual.ascendente;
+            } else {
+                ordenActual.columna = columna;
+                ordenActual.ascendente = true;
+            }
+
+            // Aplica la clase visual según dirección
+            th.classList.add(ordenActual.ascendente ? 'asc' : 'desc');
+
+            // Determinar cuál arreglo ordenar
+            const arregloOrdenar = registrosFiltrados.length > 0 ? registrosFiltrados : registros;
+
+            arregloOrdenar.sort((a, b) => {
+                let valA = a[columna];
+                let valB = b[columna];
+
+                if (!isNaN(valA) && !isNaN(valB)) {
+                    valA = Number(valA);
+                    valB = Number(valB);
+                } else {
+                    valA = valA.toString().toLowerCase();
+                    valB = valB.toString().toLowerCase();
+                }
+
+                return ordenActual.ascendente
+                    ? valA > valB ? 1 : -1
+                    : valA < valB ? 1 : -1;
+            });
+
+            currentPage = 1;
+            renderizarTabla(); // ¡ahora sí mostrará el arreglo ordenado!
+        });
+    });
+
+
     form.addEventListener('submit', e => {
         e.preventDefault();
         const nombre = nombreInput.value.trim();
